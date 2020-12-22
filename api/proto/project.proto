@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package gidyon.projectapi;
+
+option go_package="github.com/gidyon/projectapi/pkg/api/projectapi";
+
+import "google/protobuf/empty.proto";
+
+message Project {
+    string project_id = 1;
+    string project_name = 2;
+    string owner_id = 3;
+    string owner_names = 4;
+    string owner_email = 5;
+}
+
+message CreateProjectRequest {
+    Project project = 1;
+}
+
+message UpdateProjectRequest {
+    Project project = 1;
+}
+
+message GetProjectRequest {
+    string project_id = 1;
+}
+
+message DeleteProjectRequest {
+    string project_id = 1;
+}
+
+message ExistProjectRequest {
+    string project_id = 1;
+}
+
+message ExistProjectResponse {
+    bool exists = 1;
+}
+
+message ListProjectsRequest {
+    string page_token = 1;
+    string page_size = 2;
+    string owner_id = 3;
+}
+
+message ListProjectsResponse {
+    repeated Project projects = 1;
+    string next_page_token = 2;
+}
+
+service ProjectAPI {
+    rpc CreateProject (CreateProjectRequest) returns (Project);
+    rpc UpdateProject (UpdateProjectRequest) returns (Project);
+    rpc GetProject (GetProjectRequest) returns (Project);
+    rpc DeleteProject (DeleteProjectRequest) returns (google.protobuf.Empty);
+    rpc ExistProject (ExistProjectRequest) returns (ExistProjectResponse);
+    rpc ListProjects (ListProjectsRequest) returns (ListProjectsResponse);
+}
